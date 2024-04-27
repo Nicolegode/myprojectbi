@@ -94,7 +94,8 @@ IF EXISTS(
 DROP TABLE stage.Products;
 
 SELECT TOP 0 
-       [categoryid]  
+       [productid]
+      ,[categoryid]  
       ,[productname] 
       ,[supplierid] 
       ,[unitprice] 
