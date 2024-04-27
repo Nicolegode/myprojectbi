@@ -7,7 +7,7 @@ c.custid as id_cliente,
 o.empid as id_funcionario,
 od.productid as id_produto,
 o.orderdate as chave_tempo,
-o.orderid as nota_fiscal , --se o order id é a nota fiscal porque não está retornando um valor único?--
+o.orderid as nota_fiscal , 
 od.qty as quantidade,
 od.unitprice as preco_unitario,
 od.discount as desconto,

@@ -1,12 +1,12 @@
 WITH fato_source as 
     (
 SELECT 
-o.shippostalcode as codpostal_envio,
+o.shippostalcode as codigo_postal,
 c.custid as id_cliente,
 o.empid as id_funcionario,
 od.productid as id_produto,
 o.orderdate as chave_tempo,
-o.orderid as nota_fiscal , --se o order id é a nota fiscal porque não está retornando um valor único?--
+o.orderid as nota_fiscal , 
 od.qty as quantidade,
 od.unitprice as preco_unitario,
 od.discount as desconto,
@@ -32,10 +32,10 @@ SELECT
     ,f.preco_final
 FROM fato_source as f 
 JOIN dw.dimensao_cliente as dc ON dc.id_cliente = f.id_cliente
-JOIN dw.dimensao_local as dl ON dl.codpostal_envio = f.codpostal_envio
+JOIN dw.dimensao_local as dl ON dl.codigo_postal = f.codigo_postal
 JOIN dw.dimensao_funcionario as df ON df.id_funcionario = f.id_funcionario
 JOIN dbo.dimtempo as dt ON dt.Dattempo = f.chave_tempo
-JOIN dw.dimensao_produto as dp ON dp.id_produto = f.id_produto
+JOIN dw.dimensao_produto as dp ON dp.preco_unitario = f.preco_unitario
 
 
 

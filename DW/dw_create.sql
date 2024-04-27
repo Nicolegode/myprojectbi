@@ -31,6 +31,7 @@ CREATE TABLE [dw].[dimensao_local]
     (
 	[rowid] [int] IDENTITY(1,1) NOT NULL,
 	[id_pedido] [int] NOT NULL,
+	[id_cliente] [int] NOT NULL,
 	[id_funcionario] [int] NOT NULL,
 	[data_pedido] [datetime] NOT NULL,
 	[endereco] [nvarchar](60) NULL,
@@ -77,12 +78,12 @@ GO
 
 CREATE TABLE [dw].[dimensao_produto](
     [rowid] [int] IDENTITY(1,1) NOT NULL,
-	[id_produto] [int] NOT NULL,
 	[id_categoria] [int] NOT NULL,
 	[nome_categoria] [nvarchar](15) NOT NULL,
 	[sub_categoria] [nvarchar](200) NOT NULL,
 	[nome_produto] [nvarchar](40) NOT NULL,
 	[id_fornecedor] [int] NOT NULL,
 	[fornecedor] [nvarchar](30) NOT NULL,
-	[preco_unitario] [money] NOT NULL)
+	[preco_unitario] [money] NOT NULL,
+	[descontinuado] [bit] NOT NULL)
 	

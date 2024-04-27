@@ -84,9 +84,6 @@ SELECT
 DELETE
 FROM stage.orders
 
-DELETE
-FROM stage.orders;
-
 INSERT INTO stage.orders
     (
       [orderid]
@@ -121,15 +118,16 @@ DELETE
 FROM stage.products;
 
 INSERT INTO stage.products
-    (
-      [categoryid] 
+    (  [productid]
+      ,[categoryid] 
       ,[productname] 
       ,[supplierid] 
       ,[unitprice]
       ,[discontinued] 
     )
 SELECT
-       [categoryid] 
+      [productid]
+      ,[categoryid] 
        ,[productname] 
       ,[supplierid] 
       ,[unitprice]
