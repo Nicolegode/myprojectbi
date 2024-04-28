@@ -1,3 +1,4 @@
+-- Active: 1714228812731@@dataslight.database.windows.net@1433@stage
 
 
 ----carga stage.funcionario-------
@@ -155,7 +156,7 @@ WHERE productid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carg
 
 if (select count(*) from stage.products) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(productid),0) AS orderid FROM stage.Products) 
+      set ultima_chave_inserida = (SELECT isnull(max(productid),0) AS productid FROM stage.Products) 
       WHERE nome_tabela = 'products';
 
 SELECT * FROM dbo.controle_carga
@@ -234,11 +235,11 @@ SELECT
   ,[qty] 
   ,[discount]
 FROM [sales].[orderdetails]
-WHERE productid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'orderdetails');
+WHERE concat(orderid,productid) > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'orderdetails');
 
 if (select count(*) from stage.orderdetails) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(productid),0) AS productid FROM stage.orderdetails) 
-      WHERE nome_tabela = 'Categories';
+      set ultima_chave_inserida = (SELECT isnull(max(concat(orderid,productid)),0)  FROM stage.orderdetails) 
+      WHERE nome_tabela = 'orderdetails';
 
 SELECT * FROM dbo.controle_carga
