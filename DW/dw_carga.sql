@@ -117,9 +117,9 @@ FROM [dw].[dimensao_produto];
 INSERT INTO [dw].[dimensao_produto]
 (
      id_categoria
-    ,nome_categoria
+    ,categoria
     ,sub_categoria
-    ,nome_produto
+    ,produto
     ,id_fornecedor
     ,fornecedor
     ,preco_unitario

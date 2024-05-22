@@ -6,7 +6,7 @@ WHERE s.name IN ('stage','dw','dbo')
 ORDER BY s.name
 
 
-DROP TABLE dbo.Venda;
+DROP TABLE dbo.Ven
 DROP TABLE dbo.Dim_Venda;
 DROP TABLE dbo.Dim_Venda_Log;
 DROP TABLE dbo.controle_carga;

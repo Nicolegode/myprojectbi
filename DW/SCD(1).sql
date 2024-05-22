@@ -190,14 +190,13 @@ FROM dw.dimensao_local
 
 MERGE dw.dimensao_produto as target
 USING  
-(
-     SELECT 
-     p.productname as nome_produto
-     ,c.categoryid as id_categoria
-     ,categoryname as nome_categoria
-     ,description as sub_categoria
+(    SELECT
+     c.categoryid as id_categoria
+    ,c.categoryname as categoria
+     ,c.description as sub_categoria
+     ,p.productname as produto
      ,s.supplierid as id_fornecedor
-     ,s.contactname as fornecedor
+     ,s.contactname as fornecedo
      ,p.unitprice as preco_unitario
      ,p.discontinued as descontinuado
     FROM stage.categories AS c
@@ -205,16 +204,16 @@ USING
         ON c.categoryid = p.categoryid
     JOIN stage.suppliers as s
         ON p.supplierid = s.supplierid
-   JOIN stage.orderdetails as od ON od.unitprice =  p.unitprice
+
    ) as source 
 
 ON source.nome_categoria = target.nome_categoria
 WHEN NOT MATCHED 
 THEN INSERT 
-   ( nome_produto
-    ,id_categoria
-    ,nome_categoria
+   ( id_categoria
+    ,categoria
     ,sub_categoria
+    ,produto
     ,id_fornecedor
     ,fornecedor
     ,preco_unitario
@@ -223,10 +222,10 @@ THEN INSERT
 
 VALUES 
      (
-      source.nome_produto
      ,source.id_categoria
-     ,source.nome_categoria
+     ,source.categoria
      ,source.sub_categoria
+     ,source.produto
      ,source.id_fornecedor
      ,source.fornecedor
      ,source.preco_unitario
@@ -236,20 +235,20 @@ VALUES
 
 WHEN MATCHED AND 
 
-              source.nome_produto = target.nome_produto
-           OR source.id_categoria != target.id_categoria
-           OR source.nome_categoria != target.nome_categoria
+              source.id_categoria != target.id_categoria
+           OR source.categoria != target.categoria
            OR source.sub_categoria != target.sub_categoria
+           OR source.produto != target.produto
            OR source.id_fornecedor != target.id_fornecedor
            OR source.fornecedor != target.fornecedor
            OR source.preco_unitario != target.preco_unitario
            OR source.descontinuado != target.descontinuado
 
 THEN UPDATE SET 
-             target.nome_produto = source.nome_produto
-            ,target.id_categoria = source.id_categoria
-            ,target.nome_categoria = source.nome_categoria
+             target.id_categoria = source.id_categoria
+            ,target.categoria = source.categoria
             ,target.sub_categoria = source.sub_categoria
+            ,target.produto = source.produto
             ,target.id_fornecedor = source.id_fornecedor
             ,target.fornecedor = source.fornecedor
             ,target.preco_unitario = source.preco_unitario
@@ -258,3 +257,7 @@ THEN UPDATE SET
 
 SELECT* 
 FROM dw.dimensao_produto
+
+
+  
+
