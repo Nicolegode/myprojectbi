@@ -1,11 +1,11 @@
--- IF EXISTS (SELECT name FROM sys.tables WHERE name = 'DimTempo')
--- 	BEGIN 
--- 		DROP TABLE [dbo].[DimTempo]
--- 	END
--- GO
+ IF EXISTS (SELECT name FROM sys.tables WHERE name = 'DimTempo')
+	BEGIN 
+		DROP TABLE [dbo].[DimTempo]
+ 	END
+ GO
 
--- CREATE TABLE DimTempo (
--- 	 SkTempo		  INT NOT NULL IDENTITY
+ CREATE TABLE DimTempo (
+ 	 SkTempo		  INT NOT NULL IDENTITY
 -- 	,NomPeriodicidade VARCHAR (25) NOT NULL
 -- 	,DatTempo		  DATE
 -- 	,NumAno			  INT

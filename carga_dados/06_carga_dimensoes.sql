@@ -142,6 +142,7 @@ WHEN NOT MATCHED
 THEN INSERT (
     
             id_pedido,
+            id_cliente,
             id_funcionario,
             data_pedido,
             endereco,
@@ -153,6 +154,7 @@ THEN INSERT (
 VALUES
      (
      source.orderid
+    ,source.custid
     ,source.empid
     ,source.orderdate
     ,source.shipaddress
@@ -164,7 +166,8 @@ VALUES
 
 WHEN MATCHED AND 
 
-              source.orderid = target.id_pedido
+              source.orderid != target.id_pedido
+           OR source.custid != target.id_cliente
            OR source.empid != target.id_funcionario
            OR source.orderdate != target.data_pedido
            OR source.shipaddress != target.endereco
@@ -175,6 +178,7 @@ WHEN MATCHED AND
            
 THEN UPDATE SET 
             target.id_pedido = source.orderid
+           ,target.id_cliente = source.custid
            ,target.id_funcionario = source.empid
            ,target.data_pedido = source.orderdate
            ,target.endereco = source.shipaddress
@@ -191,12 +195,13 @@ FROM dw.dimensao_local
 MERGE dw.dimensao_produto as target
 USING  
 (    SELECT
-     c.categoryid as id_categoria
+     p.productid as id_produto
+    ,c.categoryid as id_categoria
     ,c.categoryname as categoria
      ,c.description as sub_categoria
      ,p.productname as produto
      ,s.supplierid as id_fornecedor
-     ,s.contactname as fornecedo
+     ,s.contactname as fornecedor
      ,p.unitprice as preco_unitario
      ,p.discontinued as descontinuado
     FROM stage.categories AS c
@@ -207,10 +212,11 @@ USING
 
    ) as source 
 
-ON source.nome_categoria = target.nome_categoria
+ON source.id_produto = target.id_produto
 WHEN NOT MATCHED 
 THEN INSERT 
-   ( id_categoria
+   ( id_produto
+    ,id_categoria
     ,categoria
     ,sub_categoria
     ,produto
@@ -222,6 +228,7 @@ THEN INSERT
 
 VALUES 
      (
+      source.id_produto
      ,source.id_categoria
      ,source.categoria
      ,source.sub_categoria
@@ -235,7 +242,8 @@ VALUES
 
 WHEN MATCHED AND 
 
-              source.id_categoria != target.id_categoria
+              source.id_produto != target.id_produto
+           OR source.id_categoria != target.id_categoria
            OR source.categoria != target.categoria
            OR source.sub_categoria != target.sub_categoria
            OR source.produto != target.produto
@@ -245,7 +253,10 @@ WHEN MATCHED AND
            OR source.descontinuado != target.descontinuado
 
 THEN UPDATE SET 
-             target.id_categoria = source.id_categoria
+          
+             
+             target.id_produto = source.id_categoria
+            ,target.id_categoria = source.id_categoria
             ,target.categoria = source.categoria
             ,target.sub_categoria = source.sub_categoria
             ,target.produto = source.produto

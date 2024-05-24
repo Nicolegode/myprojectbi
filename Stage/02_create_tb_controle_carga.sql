@@ -4,7 +4,8 @@ IF NOT EXISTS(
     JOIN sys.schemas AS s ON t.schema_id = s.schema_id
     WHERE t.name = 'controle_carga'
         AND s.name = 'dbo')
-      
+
+BEGIN
 CREATE TABLE dbo.controle_carga
 ( 
     nome_tabela varchar(1000),
@@ -18,6 +19,7 @@ VALUES('employees', NULL),
       ('suppliers',NULL),
       ('categories', NULL),
       ('orderdetails', NULL)
+END
 
 
-
+-- DROP TABLE dbo.controle_carga

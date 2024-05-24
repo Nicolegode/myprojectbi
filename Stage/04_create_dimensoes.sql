@@ -30,7 +30,7 @@ GO
 CREATE TABLE [dw].[dimensao_local]
     (
 	[rowid] [int] IDENTITY(1,1) NOT NULL,
-	[id_pedido] [int] NOT NULL,
+	[id_pedido] [int],
 	[id_cliente] [int] NOT NULL,
 	[id_funcionario] [int] NOT NULL,
 	[data_pedido] [datetime] NOT NULL,
@@ -77,6 +77,7 @@ DROP TABLE [dw].[dimensao_produto]
 GO
 
 CREATE TABLE [dw].[dimensao_produto](
+	[id_produto][int] NOT NULL,
     [rowid] [int] IDENTITY(1,1) NOT NULL,
 	[id_categoria] [int] NOT NULL,
 	[categoria] [nvarchar](15) NOT NULL,

@@ -1,7 +1,7 @@
 WITH fato_source as 
     (
 SELECT 
-o.shippostalcode as codigo_postal,
+o.orderid as id_pedido,
 c.custid as id_cliente,
 o.empid as id_funcionario,
 od.productid as id_produto,
@@ -32,12 +32,10 @@ SELECT
     ,f.preco_final
 FROM fato_source as f 
 JOIN dw.dimensao_cliente as dc ON dc.id_cliente = f.id_cliente
-JOIN dw.dimensao_local as dl ON dl.codigo_postal = f.codigo_postal
+JOIN dw.dimensao_local as dl ON dl.id_pedido = f.id_pedido
 JOIN dw.dimensao_funcionario as df ON df.id_funcionario = f.id_funcionario
 JOIN dbo.dimtempo as dt ON dt.Dattempo = f.chave_tempo
-JOIN dw.dimensao_produto as dp ON dp.preco_unitario = f.preco_unitario
-
-
+JOIN dw.dimensao_produto as dp ON dp.id_produto = f.id_produto
 
 
 
