@@ -1,6 +1,6 @@
 SELECT TOP (1000)
        [custid] as id_cliente
-      ,[companyname] as nome_empresa
+      ,[companyname] as nome_empresa 
       ,[contactname] as nome_contato
       ,[contacttitle] as _titulo_contato
       ,[address] as endereco 

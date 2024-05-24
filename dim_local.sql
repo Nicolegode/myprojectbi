@@ -4,4 +4,4 @@ SELECT TOP (1000)
       ,[shipregion] as estado
       ,[shippostalcode] as codigo_postal
       ,[shipcountry] as pais
-  FROM [Sales].[Orders]
+  FROM [Sales].[Orders] 

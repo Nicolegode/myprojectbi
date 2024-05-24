@@ -9,7 +9,7 @@ SELECT
 FROM PRODUCTION.Categories AS c
     JOIN Production.Products as p 
         ON c.categoryid = p.categoryid
-    JOIN Production.suppliers as s
+    JOIN Production.suppliers as s 
         ON p.supplierid = s.supplierid
 
 

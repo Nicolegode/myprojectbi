@@ -14,7 +14,7 @@ od.unitprice* (100 - od.discount)/ 100 as preco_final
 FROM SALES.Customers AS c
     JOIN SALES.Orders AS o
       ON c.custid = o.custid
-    JOIN Sales.OrderDetails as od
+    JOIN Sales.OrderDetails as od 
       ON o.orderid = od.orderid
     )
 

@@ -13,7 +13,7 @@ SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela
 
 
 -- example incremental load for stage orders
-
+ 
 DELETE FROM stage.orders
 
 INSERT INTO stage.orders

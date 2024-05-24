@@ -19,7 +19,7 @@ CREATE TABLE DimTempo (
  	,NumBimestre	  INT
  	,NumTrimestre	  INT
  	,NumSemestre	  INT
- 	,NumSemanaMes	  INT
+ 	,NumSemanaMes	  INT 
  	,NumSemanaAna	  INT
  	,IdcDiaUtil		  INT
  	,IdcFinalSemana	  INT

@@ -16,7 +16,7 @@ DROP TABLE dw.dimensao_cliente;
 DROP TABLE dw.dimensao_local;
 DROP TABLE dw.dimensao_funcionario;
 DROP TABLE dw.dimensao_produto;
-DROP TABLE stage.Products;
+DROP TABLE stage.Products; 
 DROP TABLE stage.productioncategories;
 DROP TABLE stage.local;
 DROP TABLE stage.employees;
