@@ -237,7 +237,7 @@ VALUES
      ,source.fornecedor
      ,source.preco_unitario
      ,source.descontinuado
-     )
+     );
 
 
 WHEN MATCHED AND 

@@ -26,6 +26,7 @@ SELECT TOP 0
       ,[country]
       ,[phone] 
       ,[mgrid] 
+      ,[modified_by]
 INTO stage.employees
 FROM HR.Employees
 
@@ -52,7 +53,8 @@ SELECT TOP 0
       ,[postalcode]
       ,[country] 
       ,[phone] 
-      ,[fax] 
+      ,[fax]
+      ,[modified_by]
 INTO stage.customers
 FROM [sales].[customers]
 
@@ -99,7 +101,8 @@ SELECT TOP 0
       ,[productname] 
       ,[supplierid] 
       ,[unitprice] 
-      ,[discontinued] 
+      ,[discontinued]
+      ,[modified_by] 
 INTO stage.Products
 FROM PRODUCTION.Products;
 
@@ -137,6 +140,7 @@ SELECT TOP 0
        [categoryid]  
       ,[categoryname] 
       ,[description] 
+      ,[modified_by]
 INTO stage.categories
 FROM [Production].[Categories]
 

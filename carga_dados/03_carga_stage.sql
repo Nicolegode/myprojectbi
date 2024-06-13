@@ -1,4 +1,3 @@
--- Active: 1714228812731@@dataslight.database.windows.net@1433@stage
 
 
 ----carga stage.funcionario-------
@@ -20,7 +19,8 @@ INSERT INTO stage.employees
      postalcode,
      country,
      phone,
-     mgrid
+     mgrid,
+     modified_by
     
     )
   SELECT
@@ -37,15 +37,17 @@ INSERT INTO stage.employees
       ,[country]
       ,[phone]
       ,[mgrid]
-  FROM [HR].[Employees]
-WHERE empid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'employees');
+      ,modified_by
+FROM [HR].[Employees]
+WHERE modified_by > (SELECT CONVERT(VARCHAR,isnull(valor_ultimo_incremento,'1900-01-01'),21) FROM dbo.controle_carga WHERE nome_tabela = 'employees');
+
 
 if (select count(*) from stage.employees) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(empid),0) AS empid FROM stage.employees) 
+      set valor_ultimo_incremento = (SELECT CONVERT(VARCHAR,(max(modified_by)),21) AS empid FROM stage.employees)
       WHERE nome_tabela = 'employees';
 
-SELECT * FROM dbo.controle_carga
+
 
 
 -------carga stage.customers-------
@@ -66,6 +68,7 @@ INSERT INTO stage.customers
       ,[country]
       ,[phone]
       ,[fax]
+      ,modified_by
 )
       
 SELECT
@@ -80,12 +83,13 @@ SELECT
       ,[country]
       ,[phone]
       ,[fax]
+      ,modified_by
 FROM [Sales].[Customers]
-WHERE custid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'customers');
+WHERE modified_by > (SELECT CONVERT(VARCHAR,isnull(valor_ultimo_incremento,'1900-01-01'),21) FROM dbo.controle_carga WHERE nome_tabela = 'customers');
 
 if (select count(*) from stage.customers) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(custid),0) AS custid FROM stage.customers) 
+      set valor_ultimo_incremento = (SELECT CONVERT(VARCHAR, (max(modified_by)),21) AS custid FROM stage.customers) 
       WHERE nome_tabela = 'customers';
 
 SELECT * FROM dbo.controle_carga
@@ -118,15 +122,14 @@ SELECT
       ,[shippostalcode]
       ,[shipcountry] 
 FROM [sales].[Orders]
-WHERE orderid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'orders');
+WHERE orderid > (SELECT CONVERT(VARCHAR ,isnull(valor_ultimo_incremento,0)) FROM dbo.controle_carga WHERE nome_tabela = 'orders');
 
 if (select count(*) from stage.orders) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(orderid),0) AS orderid FROM stage.orders) 
+      set valor_ultimo_incremento = (SELECT CONVERT(VARCHAR ,(max(orderid))) AS orderid FROM stage.orders) 
       WHERE nome_tabela = 'orders';
 
 SELECT * FROM dbo.controle_carga
-
 
 
 
@@ -143,6 +146,7 @@ INSERT INTO stage.products
       ,[supplierid] 
       ,[unitprice]
       ,[discontinued] 
+      ,modified_by
     )
 SELECT
       [productid]
@@ -151,12 +155,13 @@ SELECT
       ,[supplierid] 
       ,[unitprice]
       ,[discontinued] 
+      ,modified_by
 FROM Production.Products
-WHERE productid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'products');
+WHERE modified_by > (SELECT CONVERT(VARCHAR,isnull(valor_ultimo_incremento,'1900-01-01'),21) FROM dbo.controle_carga WHERE nome_tabela = 'products');
 
 if (select count(*) from stage.products) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(productid),0) AS productid FROM stage.Products) 
+      set valor_ultimo_incremento = (SELECT CONVERT(VARCHAR, (max(modified_by)),21) AS productid FROM stage.Products) 
       WHERE nome_tabela = 'products';
 
 SELECT * FROM dbo.controle_carga
@@ -177,11 +182,11 @@ SELECT
       [contactname],
       [supplierid]    
 FROM [Production].[suppliers]
-WHERE supplierid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'suppliers');
+WHERE supplierid > (SELECT CONVERT(VARCHAR ,isnull(valor_ultimo_incremento,0)) FROM dbo.controle_carga WHERE nome_tabela = 'suppliers');
 
 if (select count(*) from stage.suppliers) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(supplierid),0) AS supplierid FROM stage.suppliers) 
+      set valor_ultimo_incremento = (SELECT (max(supplierid)) AS supplierid FROM stage.suppliers) 
       WHERE nome_tabela = 'suppliers';
 
 SELECT * FROM dbo.controle_carga
@@ -200,20 +205,23 @@ INSERT INTO stage.categories
        [categoryid]  
       ,[categoryname] 
       ,[description] 
+      ,modified_by
 )
 SELECT 
        [categoryid]  
       ,[categoryname] 
       ,[description] 
+      ,modified_by
 FROM [Production].[Categories]
-WHERE categoryid > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'categories');
+WHERE modified_by > (SELECT CONVERT(VARCHAR,isnull(valor_ultimo_incremento,'1900-01-01'),21) FROM dbo.controle_carga WHERE nome_tabela = 'categories');
 
 if (select count(*) from stage.Categories) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(categoryid),0) AS categoryid FROM stage.Categories) 
+      set valor_ultimo_incremento = (SELECT CONVERT(VARCHAR,(max(modified_by))) AS categoryid FROM stage.Categories) 
       WHERE nome_tabela = 'Categories';
 
 SELECT * FROM dbo.controle_carga
+
 
 -----------carga stage.orderdetails------------
 
@@ -235,11 +243,11 @@ SELECT
   ,[qty] 
   ,[discount]
 FROM [sales].[orderdetails]
-WHERE concat(orderid,productid) > (SELECT isnull(ultima_chave_inserida,0) FROM dbo.controle_carga WHERE nome_tabela = 'orderdetails');
+WHERE concat(orderid,productid) > (SELECT CONVERT(VARCHAR ,isnull(valor_ultimo_incremento,0)) FROM dbo.controle_carga WHERE nome_tabela = 'orderdetails');
 
 if (select count(*) from stage.orderdetails) > 0 
 update dbo.controle_carga 
-      set ultima_chave_inserida = (SELECT isnull(max(concat(orderid,productid)),0)  FROM stage.orderdetails) 
+      set valor_ultimo_incremento = (SELECT (max(concat(orderid,productid)))  FROM stage.orderdetails) 
       WHERE nome_tabela = 'orderdetails';
 
 SELECT * FROM dbo.controle_carga
